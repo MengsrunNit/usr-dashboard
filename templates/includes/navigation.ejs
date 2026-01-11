@@ -1,0 +1,63 @@
+<aside class="sidebar">
+  <div class="sidebar__brand">
+    <a href="/dashboard">USR Dashboard</a>
+  </div>
+
+  <nav class="sidebar__nav">
+    <ul class="sidebar__list">
+      <li class="sidebar__item">
+        <a
+          class="<%= path === '/dashboard' ? 'active' : '' %>"
+          href="/dashboard"
+        >
+          Dashboard
+        </a>
+      </li>
+
+      <li class="sidebar__item">
+        <a
+          class="<%= path && path.startsWith('/jobs') ? 'active' : '' %>"
+          href="/jobs"
+        >
+          Jobs
+        </a>
+      </li>
+
+      <li class="sidebar__item">
+        <a class="<%= path === '/clock' ? 'active' : '' %>" href="/clock">
+          Time Clock
+        </a>
+      </li>
+
+      <li class="sidebar__item">
+        <a class="<%= path === '/me' ? 'active' : '' %>" href="/me">
+          My Hours & Bonuses
+        </a>
+      </li>
+
+      <!-- ADMIN (always visible for now) -->
+      <li class="sidebar__item">
+        <a
+          class="<%= path && path.startsWith('/admin') ? 'active' : '' %>"
+          href="/admin"
+        >
+          Admin
+        </a>
+      </li>
+
+      <!-- ADMIN (always visible for now) -->
+      <li class="sidebar__item">
+        <a
+          class="<%= path && path.startsWith('/admin') ? 'active' : '' %>"
+          href="/getUser"
+        >
+          Users
+        </a>
+      </li>
+
+      <li class="sidebar__item sidebar__item--logout">
+        <a href="#" class="link-button">Logout</a>
+      </li>
+    </ul>
+  </nav>
+</aside>

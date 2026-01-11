@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../includes/head.ejs') %>
+  </head>
+
+  <body>
+    <div class="dashboard">
+      <%- include('../includes/navigation.ejs') %>
+
+      <main class="dashboard__content">
+        <div class="page-header">
+          <h1 class="page-title">Add New User</h1>
+        </div>
+
+        <% if (typeof error === 'string' && error) { %>
+        <div class="error"><%= error %></div>
+        <% } %>
+
+        <form action="/addUser" method="POST" class="form-control">
+          <div class="form-control">
+            <label>Name</label>
+            <input type="text" name="name" required />
+          </div>
+
+          <div class="form-control">
+            <label>Email</label>
+            <input type="email" name="email" required />
+          </div>
+
+          <div class="form-control">
+            <label>Password</label>
+            <input type="password" name="password" required />
+          </div>
+
+          <div class="form-control">
+            <label>Phone Number</label>
+            <input type="text" name="phoneNumber" required />
+          </div>
+
+          <div class="form-control">
+            <label>Status</label>
+            <select name="status" required>
+              <option value="ACTIVE">Active</option>
+              <option value="INACTIVE">Inactive</option>
+            </select>
+          </div>
+
+          <div class="form-control">
+            <label>Role</label>
+            <select name="role">
+              <option value="CREW_MEMBER">Crew Member</option>
+              <option value="CREW_LEAD">Crew Lead</option>
+              <option value="OFFICE">Office</option>
+              <option value="ADMIN">Admin</option>
+            </select>
+          </div>
+
+          <button class="btn" type="submit">Create User</button>
+        </form>
+      </main>
+    </div>
+  </body>
+</html>

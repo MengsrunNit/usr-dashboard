@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Edit User</title>
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; margin:24px; }
+    form { max-width:640px; }
+    label { display:block; margin-top:12px; font-weight:600; }
+    input, select { width:100%; padding:8px; margin-top:6px; border:1px solid #ccc; border-radius:6px; }
+    .row { display:flex; gap:12px; }
+    .row > div { flex:1; }
+    .actions { margin-top:18px; display:flex; gap:12px; }
+    .btn { background:#0d6efd; color:#fff; border:none; padding:10px 16px; border-radius:6px; cursor:pointer; }
+    .btn.secondary { background:#6c757d; }
+    .btn.danger { background:#dc3545; }
+    .error { color:#b00020; margin:12px 0; }
+  </style>
+</head>
+<body>
+  <h1>Edit User</h1>
+  <a href="/users/getUser">← Back</a>
+
+  <% if (errors && errors.length) { %>
+    <div class="error"><%= errors.join(', ') %></div>
+  <% } %>
+
+  <form method="POST" action="/users/edit/<%= user.userId %>">
+    <label>Name
+      <input type="text" name="name" value="<%= user.name %>" required />
+    </label>
+
+    <label>Email
+      <input type="email" name="email" value="<%= user.email %>" required />
+    </label>
+
+    <label>Address
+      <input type="text" name="address" value="<%= user.address %>" required />
+    </label>
+
+    <div class="row">
+      <div>
+        <label>Status
+          <select name="status" required>
+            <option value="active" <%= user.status==='active'?'selected':'' %>>Active</option>
+            <option value="inactive" <%= user.status==='inactive'?'selected':'' %>>Inactive</option>
+          </select>
+        </label>
+      </div>
+      <div>
+        <label>Role
+          <input type="text" name="role" value="<%= user.role %>" required />
+        </label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label>Crew ID
+          <input type="number" name="crewId" value="<%= user.crewId %>" required />
+        </label>
+      </div>
+      <div>
+        <label>Last Login At
+          <input type="datetime-local" name="lastLoginAt" value="<%= user.lastLoginAt ? new Date(user.lastLoginAt).toISOString().slice(0,16) : '' %>" />
+        </label>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn" type="submit">Save Changes</button>
+      <a class="btn secondary" href="/users/getUser">Cancel</a>
+    </div>
+  </form>
+
+  <form method="POST" action="/users/delete/<%= user.userId %>" onsubmit="return confirm('Delete this user?');" style="margin-top:16px;">
+    <button class="btn danger" type="submit">Delete User</button>
+  </form>
+</body>
+</html>

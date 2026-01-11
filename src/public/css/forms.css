@@ -1,0 +1,96 @@
+form {
+  max-width: 640px;
+  margin: auto;
+}
+
+label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: 600;
+}
+
+input,
+select,
+textarea {
+  display: block;
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font: inherit;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  background-color: #e0f2f1;
+  border-color: #00695c;
+  outline: none;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.25rem 1rem;
+  text-decoration: none;
+  font: inherit;
+  border: 1px solid #00695c;
+  color: #00695c;
+  background: white;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.btn:hover,
+.btn:active {
+  background-color: #00695c;
+  color: white;
+}
+
+.btn.secondary {
+  background: #6c757d;
+  border-color: #6c757d;
+  color: white;
+}
+
+.btn.secondary:hover {
+  background: #5a6268;
+  border-color: #545b62;
+}
+
+.btn.danger {
+  color: #b00020;
+  border-color: #b00020;
+}
+
+.btn.danger:hover,
+.btn.danger:active {
+  background-color: #b00020;
+  color: white;
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+}
+.row > div {
+  flex: 1;
+}
+.actions {
+  margin-top: 16px;
+  display: flex;
+  gap: 12px;
+}
+
+form {
+  max-width: 640px;
+  margin: auto;
+}
+
+.error {
+  color: #b00020;
+  margin: 12px 0;
+  border: 1px solid #b00020;
+  padding: 0.5rem;
+  border-radius: 3px;
+}

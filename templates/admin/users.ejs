@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../includes/head.ejs') %>
+  </head>
+
+  <body>
+    <div class="dashboard">
+      <%- include('../includes/navigation.ejs') %>
+
+      <main class="dashboard__content">
+        <div class="page-header">
+          <h1 class="page-title">User Management</h1>
+          <a href="/addUser" class="btn btn--primary">+ Add User</a>
+        </div>
+
+        <div class="card">
+          <h2 class="card__title">All Users</h2>
+
+          <% if (users && users.length > 0) { %>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Last Login</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% users.forEach(u => { %>
+              <tr>
+                <td><%= u.name %></td>
+                <td><%= u.email %></td>
+                <td><%= u.phoneNumber || '-' %></td>
+                <td><%= u.role %></td>
+                <td><%= u.status %></td>
+                <td>
+                  <%= u.lastLoginAt ? new Date(u.lastLoginAt).toDateString() :
+                  'Never' %>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+          <% } else { %>
+          <p>No users found.</p>
+          <% } %>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

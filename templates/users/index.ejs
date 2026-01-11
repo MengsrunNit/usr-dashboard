@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../includes/head', { pageTitle: 'Users' }) %>
+  </head>
+
+  <body>
+    <%- include('../includes/navigation', { path: '/users/getUser' }) %>
+    <div class="toolbar">
+      <h1>Users</h1>
+      <a class="btn" href="/users/addUser">Add User</a>
+    </div>
+
+    <% if (typeof error === 'string' && error) { %>
+    <div class="error"><%= error %></div>
+    <% } %>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Address</th>
+          <th>Status</th>
+          <th>Role</th>
+          <th>Crew ID</th>
+          <th>Last Login</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (users && users.length) { %> <% users.forEach(u => { %>
+        <tr>
+          <td><%= u.userId %></td>
+          <td><%= u.name %></td>
+          <td><%= u.email %></td>
+          <td><%= u.address %></td>
+          <td><%= u.status %></td>
+          <td><%= u.role %></td>
+          <td><%= u.crewId %></td>
+          <td><%= u.lastLoginAt || '' %></td>
+          <td>
+            <a href="/users/edit/<%= u.userId %>">Edit</a>
+            <form
+              action="/users/delete/<%= u.userId %>"
+              method="POST"
+              style="display: inline"
+              onsubmit="return confirm('Delete this user?');"
+            >
+              <button
+                style="
+                  background: none;
+                  border: none;
+                  color: #dc3545;
+                  cursor: pointer;
+                  padding: 0;
+                  margin-left: 6px;
+                "
+              >
+                Delete
+              </button>
+            </form>
+          </td>
+        </tr>
+        <% }) %> <% } else { %>
+        <tr>
+          <td colspan="8" style="text-align: center; color: #666">
+            No users yet
+          </td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add User</title>
+  <link rel="stylesheet" href="/css/forms.css">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <h1>Add User</h1>
+  <a href="/users/getUser" style="text-decoration:none;">← Back to users</a>
+
+  <% if (errors && errors.length) { %>
+    <div class="error"><%= errors.join(', ') %></div>
+  <% } %>
+
+  <form method="POST" action="/users/addUser">
+    <label>Name
+      <input type="text" name="name" value="<%= values.name || '' %>" required />
+    </label>
+
+    <label>Email
+      <input type="email" name="email" value="<%= values.email || '' %>" required />
+    </label>
+
+    <label>Address
+      <input type="text" name="address" value="<%= values.address || '' %>" required />
+    </label>
+
+    <div class="row">
+      <div>
+        <label>Status
+          <select name="status" required>
+            <option value="" disabled <%= !values.status ? 'selected' : '' %>>Select status</option>
+            <option value="active" <%= values.status === 'active' ? 'selected' : '' %>>Active</option>
+            <option value="inactive" <%= values.status === 'inactive' ? 'selected' : '' %>>Inactive</option>
+          </select>
+        </label>
+      </div>
+      <div>
+        <label>Role
+          <input type="text" name="role" value="<%= values.role || '' %>" placeholder="e.g. admin, user" required />
+        </label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label>Crew ID
+          <input type="number" name="crewId" value="<%= values.crewId || '' %>" required />
+        </label>
+      </div>
+      <div>
+        <label>Last Login At (optional)
+          <input type="datetime-local" name="lastLoginAt" value="<%= values.lastLoginAt || '' %>" />
+        </label>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn" type="submit">Create User</button>
+      <a class="btn secondary" href="/users/getUser" role="button">Cancel</a>
+    </div>
+  </form>
+</body>
+</html>

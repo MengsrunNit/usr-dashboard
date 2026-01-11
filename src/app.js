@@ -1,102 +1,41 @@
-// express wiring 
-
-const express = require('express');
-const session = require('express-session');
-const pgSession = require('connect-pg-simple')(session);
-const helmet = require('helmet');
-const morgan = require('morgan');
-const compression = require('compression');
-const cors = require('cors');
-const crypto = require('crypto');
-
-
-const { SESSION_SECRET, NODE_ENV } = require("./config/env");
-const { pool } = require("./config/db");
-const { errorHandler } = require("./middlewares/errors");
-const { requireAuth } = require("./middlewares/auth");
-
-// ---- Routes (MVC) ----
-const authRoutes = require("./routes/authRoutes");
-const jobsRoutes = require("./routes/jobsRoutes");
-const timeRoutes = require("./routes/timeRoutes");
-const bonusRoutes = require("./routes/bonusRoutes");
-const inventoryRoutes = require("./routes/inventoryRoutes");
-const reportsRoutes = require("./routes/reportsRoutes");
+require("dotenv").config();
+const express = require("express");
+const path = require("path");
+const errorController = require("./controllers/error");
+const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 
-// Behind a proxy/load balancer? (Heroku, Render, Nginx, etc.)
-app.set("trust proxy", 1);
+// Views (EJS templates)
+app.set("view engine", "ejs");
+app.set("views", require("path").join(__dirname, "../templates"));
 
+// Body parsers
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Static files (change if you keep assets elsewhere)
+const isProd = process.env.NODE_ENV === "production";
+if (!isProd) {
+  app.disable("view cache");
+}
 app.use(
-  helmet({
-    contentSecurityPolicy: false,
-    crossOriginResourcePolicy: { policy: "same-site" },
+  express.static(path.join(__dirname, "public"), {
+    etag: true,
+    maxAge: isProd ? "7d" : 0,
   })
 );
 
-// --- Basic telemetry & performance ---
-app.use(morgan(NODE_ENV === "production" ? "combined" : "dev"));
-app.use(compression());
-
-// --- CORS (internal-first: lock down by default) ---
-app.use(cors({ origin: false })); // set to your domain(s) if needed
-
-// --- Parsers with sane limits ---
-app.use(express.json({ limit: "1mb" }));
-app.use(express.urlencoded({ extended: true, limit: "1mb" }));
-
-// --- Sessions (PG-backed) ---
-app.use(
-  session({
-    store: new pgSession({ pool }),
-    secret: SESSION_SECRET,
-    name: "usr.sess",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: NODE_ENV === "production", // true behind HTTPS
-      maxAge: 1000 * 60 * 60 * 8, // 8h
-    },
-  })
-);
-
-// --- Lightweight request id (for logs & audit correlation) ---
 app.use((req, res, next) => {
-  req.id =
-    req.headers["x-request-id"] ||
-    crypto.randomBytes(12).toString("hex");
-  res.setHeader("X-Request-Id", req.id);
+  res.locals.path = req.path; // so you don’t have to pass path manually
+  res.locals.user = req.session?.user || null; // or however you store user
   next();
 });
 
-// --- Health checks (no auth) ---
-app.get("/healthz", (_req, res) => {
-  res.json({ ok: true, ts: new Date().toISOString() });
-});
+// Routes
+app.use(userRoutes);
 
-// ---- Public (no auth) ----
-app.use("/api/v1/auth", authRoutes);
-
-// ---- Authenticated API ----
-app.use("/api/v1", requireAuth);           // everything below requires login
-app.use("/api/v1/jobs", jobsRoutes);
-app.use("/api/v1/time", timeRoutes);
-app.use("/api/v1/bonuses", bonusRoutes);
-app.use("/api/v1/inventory", inventoryRoutes);
-app.use("/api/v1/reports", reportsRoutes);
-
-// ---- 404 for unknown API routes ----
-app.use((req, res, next) => {
-  if (req.path.startsWith("/api/")) {
-    return res.status(404).json({ error: "Not found" });
-  }
-  next();
-});
-
-// ---- Centralized error handler ----
-app.use(errorHandler);
+// 404 fallback
+app.use(errorController.error404);
 
 module.exports = app;

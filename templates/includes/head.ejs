@@ -1,0 +1,45 @@
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<title><%= pageTitle %></title>
+
+<link rel="stylesheet" href="/css/main.css" />
+<link rel="stylesheet" href="/css/dashboard.css" />
+<link rel="stylesheet" href="/css/forms.css" />
+
+<script>
+  (function () {
+    if (
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
+
+    document.addEventListener(
+      "click",
+      function (e) {
+        var link = e.target && e.target.closest ? e.target.closest("a") : null;
+        if (!link) return;
+        var href = link.getAttribute("href");
+        if (!href || href === "#") return;
+        if (link.target && link.target !== "_self") return;
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        if (href.startsWith("mailto:") || href.startsWith("tel:")) return;
+        if (href.startsWith("http") && !href.startsWith(location.origin))
+          return;
+
+        // If navigating to the same URL, don't animate.
+        var absolute = link.href;
+        if (absolute === location.href) return;
+
+        e.preventDefault();
+        document.body.classList.add("is-navigating");
+        window.setTimeout(function () {
+          location.href = absolute;
+        }, 90);
+      },
+      true
+    );
+  })();
+</script>

@@ -1,0 +1,1 @@
+Public directory for static assets (images, css, js).

@@ -1,0 +1,223 @@
+/* public/css/main.css */
+
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Open Sans", sans-serif;
+  background: #f6f7f9;
+}
+
+/* DASHBOARD LAYOUT */
+.layout {
+  min-height: 100vh;
+  display: flex;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+main {
+  padding: 1.25rem;
+  margin: 0;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 260px;
+  background: #00695c;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.sidebar__brand a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+/* USER BOX */
+.sidebar__user {
+  padding: 0.75rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  margin-bottom: 1rem;
+}
+
+.sidebar__user-link {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 0.75rem;
+  align-items: center;
+  text-decoration: none;
+  color: #fff;
+}
+
+.sidebar__user-link:hover {
+  opacity: 0.95;
+}
+
+.sidebar__user-link:hover .sidebar__user-name {
+  text-decoration: underline;
+}
+
+.sidebar__avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+
+.sidebar__user-meta {
+  min-width: 0;
+}
+
+.sidebar__user-name {
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar__user-role {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+.sidebar__logout {
+  margin-top: 0.5rem;
+}
+
+/* NAV */
+.sidebar__nav {
+  flex: 1;
+}
+
+.sidebar__item-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.sidebar__item a {
+  display: block;
+  padding: 0.65rem 0.75rem;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 700;
+}
+
+.sidebar__item a:hover,
+.sidebar__item a.active {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffeb3b;
+}
+
+/* Buttons from your original CSS (kept) */
+.btn {
+  display: inline-block;
+  background: #0d6efd;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+}
+
+.btn:hover {
+  background: #0b5ed7;
+}
+
+.btn.secondary {
+  background: #6c757d;
+}
+
+.btn.secondary:hover {
+  background: #5c636a;
+}
+
+/* Logout button styled like a link */
+.link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: left;
+}
+
+.link-button:hover {
+  color: #ffeb3b;
+}
+
+.centered {
+  text-align: center;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 0 1rem;
+}
+
+.error {
+  color: #b00020;
+  margin: 12px 0;
+  padding: 0.5rem;
+  border: 1px solid #b00020;
+  border-radius: 3px;
+  background-color: #fadbd8;
+}
+
+/* Responsive: sidebar becomes top-ish on small screens */
+@media (max-width: 860px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .sidebar__nav {
+    flex: 1;
+  }
+
+  .sidebar__item-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .sidebar__user {
+    min-width: 240px;
+    margin-bottom: 0;
+  }
+}
